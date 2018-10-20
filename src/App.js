@@ -1,10 +1,10 @@
 import React from 'react';
-import DevicesPage from './DevicesPage'
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-import Device from './Device'
+import DevicesPage from './DevicesPage'
+
 class App extends React.Component {
 
     constructor(props) {
@@ -64,10 +64,10 @@ class App extends React.Component {
                 />
                 <section className="header row justify-content-around align-items-center">
                     <div className="col-4">
-                        <h4> Active -> {active_device}</h4>
+                        <h4> Active  Devices-> {active_device}</h4>
                     </div>
                     <div className="col-4">
-                        <h4>Deactivate -> {inactive_device}</h4>
+                        <h4>Inactive Devices-> {inactive_device}</h4>
                     </div>
                     <div className="form-group col-md-4">
                         <input
