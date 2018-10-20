@@ -12,7 +12,7 @@ class App extends React.Component {
         this.state = {
             readings: [],
             loading: false,
-            search: ''
+            filtered: null
         }
         this.loadData = this.loadData.bind(this)
         this.toggleDeviceState = this.toggleDeviceState.bind(this)
@@ -23,12 +23,12 @@ class App extends React.Component {
             toast.success("Great job, you did it!", {
                 position: "top-right",
                 autoClose: 3000,
-                hideProgressBar: false
+                hideProgressBar: true
             });
             this.loadData()
 
         }).catch(error => {
-            toast.error("Damn it!, Coudn't do anything, pls try again!", {
+            toast.error("Damn it!, Coudn't do anything, Please try again!", {
                 position: "top-right",
                 autoClose: 3000,
                 hideProgressBar: true,
@@ -44,51 +44,43 @@ class App extends React.Component {
         axios.get('http://localhost:8888/device').then(response => {
             this.setState({ readings: response.data.data, loading: true })
         }).catch(e => {
-            console.log(e, 'loading data')
+            console.log(e, 'err loading data')
         })
     }
     filterList(e) {
-
-        let original = this.state.readings;
-        let filtered = this.state.readings.filter(data => {
-            return data.name.includes(e.target.value)
-        })
-        if (e.target.value.length == 2) {
-            this.setState({ readings: original })
-        } else {
-            this.setState({ readings: filtered })
-        }
+        let filtered = this.state.readings.filter(data => data.name.includes(e.target.value))
+        this.setState({ filtered })
     }
     render() {
         const active_device = this.state.readings.filter(e => e.active).length;
         const inactive_device = this.state.readings.length - active_device
         return (
             <div className="container">
-                <section className="row">
-                    <ToastContainer
-                        position="top-right"
-                        autoClose={3000}
-                        hideProgressBar
-                        newestOnTop={false}
-                        closeOnClick
-                        rtl={false}
-                        pauseOnVisibilityChange
-                        draggable
-                        pauseOnHover
-                    />
-                    <div className="col-md-6 text-center">
-                        <h2> Active Devices</h2> <h1>{active_device}</h1>
+                <ToastContainer
+                    position="top-right"
+                    autoClose={3000}
+                    newestOnTop={false}
+
+                />
+                <section className="header row justify-content-around align-items-center">
+                    <div className="col-4">
+                        <h4> Active -> {active_device}</h4>
                     </div>
-                    <div className="col-md-6  text-center">
-                        <h2>Inactive Devices</h2><h1>{inactive_device}</h1>
+                    <div className="col-4">
+                        <h4>Deactivate -> {inactive_device}</h4>
                     </div>
-                </section>
-                <section class="form-group col-md-4">
-                    <label for="search">Search: </label>
-                    <input className="form-control" type="text" onChange={(e) => this.filterList(e)} />
+                    <div className="form-group col-md-4">
+                        <input
+                            className="form-control"
+                            type="text"
+                            id="search"
+                            placeholder="Type Device Name"
+                            onChange={(e) => this.filterList(e)} />
+
+                    </div>
 
                 </section>
-                {this.state.loading && <DevicesPage data={this.state.readings} toggle={this.toggleDeviceState} />}
+                {this.state.loading && <DevicesPage devices={this.state.filtered || this.state.readings} toggle={this.toggleDeviceState} />}
             </div>
         );
     }
