@@ -11,7 +11,7 @@
 A JSON object. The `data` key refers to an array containing each of the device's readings. Each reading has the following keys: `name`, `unit`, `value`, `timestamp`, and `active`.
 
 ## `/device/${readingName}`
-##### ENDPOINT
+##### ENDPOINT`
 `/device/${readingName}?active=${stateValue}`
 
 ##### METHOD

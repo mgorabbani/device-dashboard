@@ -1,2 +1,22 @@
 /* Add your CSS here. This file should */
 /* automatically hot reload into the app on save */
+body {
+    color:#1B1E32
+}
+
+.device {
+    background-color: #F6F9FC;
+    padding: 10px;
+    box-shadow: 2px 2px 10px 0px #3f51b533;
+    border-radius: 3px;
+}
+.device h4 span {
+    float: right;
+    font-size: 13px;
+}
+
+
+li {
+    list-style: none
+}
+
